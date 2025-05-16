@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.tibco.com/schemas/SOPWebService/SharedResources/Schemas/Schema.xsd" xmlns:tns="http://xmlns.example.com/1743757258014" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.example.com/1743757258014">
+    <import namespace="http://www.tibco.com/schemas/SOPWebService/SharedResources/Schemas/Schema.xsd" location="../Schemas/UsersSchema.xsd"/>
+    <message name="ReqAddUser">
+        <part name="Request" element="ns:User"/>
+    </message>
+    <message name="RespAddUser">
+        <part name="Message" type="xsd:string"/>
+    </message>
+    <message name="ReqDeleteUser">
+        <part name="Request" element="ns:UserID"/>
+    </message>
+    <message name="RespDeleteUser">
+        <part name="Message" type="xsd:string"/>
+    </message>
+    <message name="ReqGetUser">
+        <part name="Request" element="ns:UserID"/>
+    </message>
+    <message name="RespGetUser">
+        <part name="Response" element="ns:User"/>
+    </message>
+    <message name="ReqGetUsers"/>
+    <message name="RespGetUsers">
+        <part name="Response" element="ns:Users"/>
+    </message>
+    <portType name="UsersPortType">
+        <operation name="AddUser">
+            <input message="tns:ReqAddUser"/>
+            <output message="tns:RespAddUser"/>
+        </operation>
+        <operation name="DeleteUser">
+            <input message="tns:ReqDeleteUser"/>
+            <output message="tns:RespDeleteUser"/>
+        </operation>
+        <operation name="GetUser">
+            <input message="tns:ReqGetUser"/>
+            <output message="tns:RespGetUser"/>
+        </operation>
+        <operation name="GetUsers">
+            <input message="tns:ReqGetUsers"/>
+            <output message="tns:RespGetUsers"/>
+        </operation>
+    </portType>
+</definitions>

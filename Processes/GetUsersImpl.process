@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://xmlns.example.com/1743757258014" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/schemas/SOPWebService/SharedResources/Schemas/Schema.xsd">
+    <wsdl:import namespace="http://xmlns.example.com/1743757258014" location="/SharedResources/WSDLs/UsersWSDL.wsdl"/>
+    <pd:name>Processes/GetUsersImpl.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType wsMsgRef="pfx:ReqGetUsers"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:RespGetUsers>
+            <Response>
+                <ns:Users>
+                    <ns:User>
+                        <ns:UserID>
+                            <xsl:value-of select="round($GetUsers/resultSet/Record[1]/user_id)"/>
+                        </ns:UserID>
+                        <xsl:if test="$GetUsers/resultSet/Record[1]/user_name">
+                            <ns:UserName>
+                                <xsl:value-of select="$GetUsers/resultSet/Record[1]/user_name"/>
+                            </ns:UserName>
+                        </xsl:if>
+                        <xsl:if test="$GetUsers/resultSet/Record[1]/user_status">
+                            <ns:UserStatus>
+                                <xsl:value-of select="$GetUsers/resultSet/Record[1]/user_status"/>
+                            </ns:UserStatus>
+                        </xsl:if>
+                    </ns:User>
+                </ns:Users>
+            </Response>
+        </pfx:RespGetUsers>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType wsMsgRef="pfx:RespGetUsers"/>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1743761229381</pd:targetNamespace>
+    <pd:activity name="GetUsers">
+        <pd:type>com.tibco.plugin.jdbc.JDBCQueryActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCQueryActivity</pd:resourceType>
+        <pd:x>275</pd:x>
+        <pd:y>66</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>0</maxRows>
+            <emptyStrAsNil>false</emptyStrAsNil>
+            <jdbcSharedConfig>/SharedResources/Connections/JDBC Connection.sharedjdbc</jdbcSharedConfig>
+            <statement>SELECT USER_ID, USER_NAME, USER_STATUS FROM USERS</statement>
+            <oraObjects/>
+            <oraTables/>
+            <QueryOutputCachedSchemaColumns>user_id</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>4</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>INT</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>user_name</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>12</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>VARCHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+            <QueryOutputCachedSchemaColumns>user_status</QueryOutputCachedSchemaColumns>
+            <QueryOutputCachedSchemaDataTypes>1</QueryOutputCachedSchemaDataTypes>
+            <QueryOutputCachedSchemaDataTypesName>CHAR</QueryOutputCachedSchemaDataTypesName>
+            <QueryOutputCachedSchemaStatus>RequiredElement</QueryOutputCachedSchemaStatus>
+        </config>
+        <pd:inputBindings>
+            <jdbcQueryActivityInput/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetUsers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetUsers</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
